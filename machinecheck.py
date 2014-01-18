@@ -51,12 +51,10 @@ while (True):
             for z in range(1,8):
                 access = flag & machinenumber[machine]
                 if access > 0:
-                    print textcolor.OKGREEN + "Access GRANTED to"
-					,machines[machine] + textcolor.ENDC
+                    print textcolor.OKGREEN + "Access GRANTED to",machines[machine] + textcolor.ENDC
                     print ""
                 else:
-                    print textcolor.FAIL + "Access DENIED to"
-					,machines[machine] + textcolor.ENDC
+                    print textcolor.FAIL + "Access DENIED to",machines[machine] + textcolor.ENDC
                     print ""
                 machine=machine+1
         else:
