@@ -1,89 +1,186 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+#
+# v0.2.2 FLACS
+# Dan Wald
+
 import MySQLdb as mdb
 import sys
+import socket
 from time import strftime
 try:
     import RPi.GPIO as GPIO
-	import Settings
-	import FuncLib as FUNC
 except RunTimeError:
-    print("Must run as Root! - Try Using SUDO")
+    print ("Must run as ROOT! - Try using SUDO!")
 
- c = FUNC.connectDatabase(Settings.host(),Settings.user(),
-						  Settings.passwd(),Settings.db())
+#These variables control the Database connection
+#The User is set via the hostname of the Pi itself
+#To change the hostname:
+#edit both /etc/hosts and /etc/hostname to the new name
+#To take effect, reboot the system
 
-machine = 0	
-	
+#Connect to database:
+user = socket.gethostname()
+db=mdb.connect("144.13.119.113",user,"password","FabControl");
+#Create connection object:
+c = db.cursor()
 
-#GPIO Pin Housekeeping
+#The following sets the GPIO assignments for the relay
 
-GPIO.setmode(GPIO.BOARD)  #Sets Pinout numbering to 1-26
-GPIO.setup(12, GPIO.OUT)  #Sets PIN 12 (BCM 18) to Output
-GPIO.output(12, GPIO.LOW) #Sets initial value to off
+GPIO.setwarnings(False)   #Sets warnings off to reduce clutter
+GPIO.setmode(GPIO.BOARD)  #Sets GPIO numbering to 1-26
+GPIO.setup(12, GPIO.OUT)  #Sets Pin 12 (BCM 18) to output
+GPIO.output(12, GPIO.LOW) #Sets default state to off
 
+#The following values do not matter to this program,
+#however, are relevant to the Windows Admin CMS
+#DO NOT MODIFY:
 
-#Check and return database version
-print ""
+#Uncomment if the auto-incriment in MySQL does not work:
+id = 0 
+organisation = 0
+facility = 0
+location = socket.gethostname() #Sets device hostname as location
+hostname = socket.gethostname() #Sets device hostname as hostname
+terminal = 0
+software = 20011
+operator = 0
+
+#Set up Scan Code for Program:
+def scan():
+    while (True):
+        try:
+            x = int(raw_input("SCAN BARCODE: "))
+        except ValueError:
+            print "Not A Valid User! Must be number in format XXXXXX."
+            print ""
+            continue
+        else:
+            return (x)
+logtime = strftime("%Y-%m-%d %H:%M:%S")
+
+#Return database version:
 c.execute("SELECT VERSION()")
-ver = c.fetchone()
-print textcolor.OKBLUE + "Database Version : %s " % ver + textcolor.ENDC
-print ""
+ver=c.fetchone()
+print "DB Version: %s" % ver
 
-
-#CORE PROGRAM
+#Begin program loop
 while (True):
+    print ""
+    barcode=scan()
+    
+    #Start FabLab Status Check:
+    c.execute("""SELECT status FROM fabstatus WHERE machine = %s""", ("fablab"))
+    labstatus = c.fetchone()
+    if labstatus[0] == 1:
+        print "Fablab is Open"
 
-    barcode = FUNC.scan() #Input barcode
-	objidResult = FUNC.objidGet(c,barcode) #Returns recordset of objid based on barcode
-	if objidResult is not None:
-		
-		member = objidResult[0]#Set the correct result to the member var
-		flagsAndNameResult = FUNC.flagsAndNameGet(c,objidResult[0])#Attempt to get the flags and name based on objid
-		binid = binidGet(c,Settings.hostname())
-		
-		if flagsAndNameResult is not None:
-			print "Name: ", flagsAndNameResult[0], flagsAndNameResult[1]
-			print "Flags: ", flagsAndNameResult[2]
-			print "Machine: ", Settings.hostname(), "-", binid[0]
-			
+        #Start Machine Status Check:
+        c.execute("""SELECT * FROM fabstatus WHERE machine = %s""", (hostname))
+        machineresult = c.fetchone()
+        machinestatus = machineresult[3]
+        binid = machineresult[1]
+        if machinestatus == 1:
+            print "%s is available" %hostname
 
-			flag=int(flagsAndNameResult[2])
-			access = flag & binid[0]
-			if access > 0:
-				print '\033[92m' + "Access GRANTED to " + Settings.hostname() + '\033[0m'
-				print ""
-				
+            #Start User Status Check:
+            c.execute("""SELECT objid FROM scancode WHERE code = %s""",(barcode))
+            objid = c.fetchone()
+            print "UserID: ", objid[0]
+            if objid is not None:
+                c.execute("""SELECT name, surname, flags FROM contact WHERE id = %s""",objid[0])
+                fabuser = c.fetchone()
+                print fabuser
+                name = fabuser[0] + " " + fabuser[1]
+                print name
+                access = fabuser[2] & binid
+                print "Flag: ", access
 
-				try:
-					FUNC.logContact(c,Settings.id(),member,
-									1,Settings.organisation(),Settings.facility(),
-									Settings.location(),Settings.hostname(),
-									Settings.terminal(),Settings.software(),
-									Settings.operator(),)
-									
-					GPIO.output(12, GPIO.HIGH) #Fire the Relay
-					
-					#REPLACE THIS LINE WITH BUTTON HOOK FROM GPIO
-					raw_input("Press ENTER to log out -> ")
+                #Grant or Deny Access:
+                if access > 0:
+                    try:
+                        logBit = 1
+                        facility = 1
+                        #Log the time of the barcode scan:
+                        c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
+                        organisation, facility, location, hostname, terminal, software, operator) \
+                        values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
+                        (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                        db.commit()
 
-					FUNC.logContact(c,Settings.id(),member,
-									0,Settings.organisation(),Settings.facility(),
-									Settings.location(),Settings.hostname(),
-									Settings.terminal(),Settings.software(),
-									Settings.operator(),)
-									
-					GPIO.output(12, GPIO.LOW) #Disable the Relay
-				except mdb.ProgrammingError:
-					pass
-					db.rollback()
-			else:
-				print '\033[91m' + "Access DENIED to" Settings.hostname() + '\033[0m'
-				print ""
-		else:
-			print "DB ERROR"
-	else:
-		print '\033[91m' + "NOT A VALID USER" + '\033[0m'
-		print ""
+                        #This line sets the machine as IN USE by the current user:
+                        c.execute("""UPDATE fabstatus SET status = 2, contactid = %s, name = %s WHERE machine = %s""", (objid[0], name, hostname))                                  
+                        db.commit()
+
+                        #Lastly, turn on the relay
+                        GPIO.output(12, GPIO.HIGH)
+                        print "Logged SUCCESS to database"
+
+                        #Wait for user to log out
+                        raw_input("PRESS ENTER TO LOG OUT ->")
+
+                        #Reset log status to log-out
+                        logBit = 0
+                        facility = 1
+                        c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
+                        organisation, facility, location, hostname, terminal, software, operator) \
+                        values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
+                        (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                        db.commit()
+
+                        #Resets the machine to available by the current user:
+                        c.execute("""UPDATE fabstatus SET status = 1, contactid = 0, name = '' WHERE machine = %s""", (hostname))                                  
+                        db.commit()
+
+                        #Lastly, turn off the relay
+                        GPIO.output(12, GPIO.LOW)
+                        print "Logged out of database"
+                    
+
+                        
+                    except mdb.ProgrammingError:
+                        print "DATABASE ERROR!"
+                        pass
+                        db.rollback()
+                        
+                #User access level
+                else:
+                    print "Access Denied! Please See a Lab Tech"
+                    #Log scan without triggering GPIO - set 
+                    logBit = 0
+                    facility = 0
+                    c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
+                    organisation, facility, location, hostname, terminal, software, operator) \
+                    values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
+                    (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                    db.commit()
+                    
+            #User exist level
+            else:
+                print "User does not exist!"
+            
+        #Machine access level - use codes to set status:
+                
+        elif machinestatus == 2:
+            print "%s is IN USE" %hostname
+            
+        elif machinestatus == 3:
+            print "%s is under repair" %hostname
+            
+        else:
+            print "%s is offline" %hostname
+            
+    #Lab access level    
+    else:
+        print "FabLab is closed"
 
     
+    
+
+    
+    
+
+
+
+
+
