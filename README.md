@@ -1,7 +1,7 @@
 FLACS
 =====
 
-FABLab Access Control System
+###FABLab Access Control System
 
 This project will allow a Raspberry Pi to communicate to a server to authenticate users of a machine. 
 It logs visits and duration while locking out equipment to those not trained on the system.
@@ -9,17 +9,21 @@ It logs visits and duration while locking out equipment to those not trained on 
 
 The Raspberry Pi is the heart of the project. With its GPIO pins and embedded ARM processor, the Pi is able to become a small client located at each machine - removing the need for larger and more expensive computers. With the ability to run off of an SD Card, the Pi has the advantage of quick cloning the OS to spawn derivitive copies of itself quickly.
 
-To set up the first Pi, you will need the following:
+####To set up the first Pi, you will need the following:
 	
 1. SD card • Minimum size 4Gb; class 4 or higher
-2a. HDMI to HDMI / DVI lead • HDMI to HDMI lead OR 
-		HDMI to DVI lead (for monitors with DVI input).
-2b. RCA video lead 
+
+2. HDMI to HDMI / DVI lead • HDMI to HDMI lead OR 
+		HDMI to DVI lead (for monitors with DVI input) OR
+                A component video cable and TV
+
 3. Keyboard and mouse 
+
 4. Ethernet (network) cable OR Wireless Adapter (check if it is supported)
+
 5. Power adapter • provide at least 700mA at 5V (wait to connect)
 
-Connect the components together and then follow these steps to get your Pi up and running:
+####Connect the components together and then follow these steps to get your Pi up and running:
 
 1. Insert an SD card that is 4GB or greater in size into your computer
 2. Format the SD card so that the Pi can read it
@@ -70,6 +74,8 @@ Once the file copying is complete, you will get a message “Image applied succe
 * update 			- updates the config file. Not necissary, but can be run if desired.
 
 The Pi will finish applying the settings and may reboot. When the desktop loads, be sure that your Pi is connected to the internet for the next steps.
+
+####Installing Libraries
 
 We now need to install the libraries that the code will depend on. Click on the desktop icon ‘LXTerminal’ to open a terminal session, and enter the following:
 
