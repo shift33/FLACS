@@ -94,9 +94,10 @@ lcd.message("%s" %ver)
 print "%s" % (ver)
 
 #Find Machine Binid
-c.execute("""SELECT * FROM fabstatus WHERE machine = %s""", (hostname))
+c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", (hostname))
 machineresult = c.fetchone()
-binid = machineresult[1]
+binid = 2**machineresult[0]
+print "binid: ",binid
 
 #Begin program loop
 while (True):
@@ -118,7 +119,8 @@ while (True):
             print name
             access = fabuser[2] & binid
             techaccess = fabuser[2] & techflag
-            print "Flag: ", access                
+            print "Access Flag: ", access
+            print "Tech Flag:   ",techaccess
             if (access > 0) or (techaccess > 0):
                 
                 #Start FabLab Status Check:
