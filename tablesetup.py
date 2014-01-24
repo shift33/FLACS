@@ -23,17 +23,11 @@ user = "root"                                                           #Databas
 password = "password"                                                   #Database password
 database = "FabControl"                                                 #Database tables
 
-while (True):
-    try:
-        print "Connecting to Database..."
-        db = mdb.connect(host,user,password,database);                  #Tries connection to database
-        c = db.cursor()                                                 #Creates cursor object if successful
-        print "Success!!"
-        print ""
-        break
-    except MySQLdb.Error, e:                                            #DB connection error handling
-        dbc = dbc + 1
-        continue
+print "Connecting to Database..."
+db = mdb.connect(host,user,password,database);                          #Tries connection to database
+c = db.cursor()                                                         #Creates cursor object if successful
+print "Success!!"
+print ""
 
 print "Creating Table fabstatus2"
 c.execute("""CREATE TABLE fabstatus2 (
