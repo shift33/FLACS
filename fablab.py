@@ -127,7 +127,7 @@ while (True):
                 #Start FabLab Status Check:
                 c.execute("""SELECT status FROM fabstatus WHERE machine = %s""", ("fablab"))
                 labstatus = c.fetchone()
-                if labstatus[0] == 1:
+                if (labstatus[0] == 1) or (techaccess > 0):
                     print "Fablab is Open"
                     lcd.clear()
                     lcd.backlight(lcd.GREEN)
@@ -139,7 +139,7 @@ while (True):
                     machineresult = c.fetchone()
                     machinestatus = machineresult[3]
                     binid = machineresult[1]
-                    if machinestatus == 1:
+                    if (machinestatus == 1) or (techaccess > 0):
                         print "%s is available" %hostname
                         lcd.backlight(lcd.GREEN)
                         lcd.message("\n%s is OPEN" %hostname)
