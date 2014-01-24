@@ -28,7 +28,7 @@ user = socket.gethostname()                                             #Databas
 password = "password"                                                   #Database password
 database = "FabControl"                                                 #Database tables
 
-techflag = 4                                                            #Tech Flag for admin bypass
+techflag = 1                                                            #Tech Flag for admin bypass
 
 logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
 GPIO.setwarnings(False)                                                 #Sets warnings off to reduce clutter
@@ -93,6 +93,10 @@ lcd.backlight(lcd.ON)
 lcd.message("%s" %ver)
 print "%s" % (ver)
 
+#Find Machine Binid
+c.execute("""SELECT * FROM fabstatus WHERE machine = %s""", (hostname))
+machineresult = c.fetchone()
+binid = machineresult[1]
 
 #Begin program loop
 while (True):
