@@ -28,25 +28,22 @@ The Raspberry Pi is the heart of the project. With its GPIO pins and embedded AR
 1. Insert an SD card that is 4GB or greater in size into your computer
 2. Format the SD card so that the Pi can read it
 	* Windows
-	
-		Download the SD Association’s Formatting Tool from
+		* Download the SD Association’s Formatting Tool from
 		https://www.sdcard.org/downloads/formatter_4/eula_windows/
-		ii. Install and run the Formatting Tool on your machine
-		iii. Set “FORMAT SIZE ADJUSTMENT” option to “ON” in the “Options” menu
-		iv. Check that the SD card you inserted matches the one selected by the Tool
-		v. Click the “Format” button
+		* Install and run the Formatting Tool on your machine
+		* Set “FORMAT SIZE ADJUSTMENT” option to “ON” in the “Options” menu
+		* Check that the SD card you inserted matches the one selected by the Tool
+		* Click the “Format” button
 	* Mac
-	
-		Download the SD Association’s Formatting Tool from
+		* Download the SD Association’s Formatting Tool from
 		https://www.sdcard.org/downloads/formatter_4/eula_mac/
-		ii. Install and run the Formatting Tool on your machine
-		iii. Select “Overwrite Format”
-		iv. Check that the SD card you inserted matches the one selected by the Tool
-		v. Click the “Format” button
+		* Install and run the Formatting Tool on your machine
+		* Select “Overwrite Format”
+		* Check that the SD card you inserted matches the one selected by the Tool
+		* Click the “Format” button
 	* Linux
-	
-		We recommend using gparted (or the command line version .parted)
-		Format the entire disk as FAT
+		* We recommend using gparted (or the command line version .parted)
+		* Format the entire disk as FAT
 3. Download the New Out Of Box Software (NOOBS) from:
 	http://downloads.raspberrypi.org/noobs
 4. Unzip the downloaded file
