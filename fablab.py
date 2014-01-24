@@ -23,7 +23,7 @@ try:
 except RunTimeError:
     print ("Must run as ROOT! - Try using SUDO!")
 
-host = "144.13.119.113"                                                 #Database host
+host = "host"                                                 #Database host
 user = socket.gethostname()                                             #Database user - see note 1
 password = "password" 	                                                #Database password
 database = "FabControl"                                                 #Database tables
@@ -83,6 +83,7 @@ while (True):
         break
     except mdb.Error, e:	                                        #DB connection error handling
         dbc = dbc + 1
+        sleep(5)
         continue    
 
 #Return database version:
@@ -93,7 +94,7 @@ lcd.backlight(lcd.ON)
 lcd.message("%s" %ver)
 print "%s" % (ver)
 
-#Find Machine Binid
+#Find Machine Flag for Binid
 c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", (hostname))
 machineresult = c.fetchone()
 binid = 2**machineresult[0]
