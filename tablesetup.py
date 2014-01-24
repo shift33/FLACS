@@ -20,7 +20,7 @@ from time import sleep
 
 host = "192.168.1.145"                                                  #Database host
 user = "root"                                                           #Database user
-password = "wakibob24"                                                  #Database password
+password = "password"                                                   #Database password
 database = "FabControl"                                                 #Database tables
 
 while (True):
@@ -54,7 +54,7 @@ c.execute("""INSERT INTO fabstatus (id, binid, machine, hmachine, \
 status, userid) VALUES (%s, %s, %s, %s, %s, %s)""",\
 [
 (0,0,"fablab","FabLab",0,0),
-#Skip binid 1, as it tests for tech flag
+#Skip binid 1, as it tests for the tech flag
 (0,2,"laser1","FabLab",0,0),
 (0,4,"laser2","FabLab",0,0),
 (0,8,"vinyl","FabLab",0,0),
