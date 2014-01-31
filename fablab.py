@@ -7,7 +7,7 @@ __author__ = "Dan Wald"
 __copyright__ = "Copyright 2014, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.4.4"
+__version__ = "0.4.6"
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
@@ -23,10 +23,10 @@ try:
 except RunTimeError:
     print ("Must run as ROOT! - Try using SUDO!")
 
-host = "host"                                                 #Database host
+host = "192.168.2.3"                                                 #Database host
 user = socket.gethostname()                                             #Database user - see note 1
-password = "password" 	                                                #Database password
-database = "FabControl"                                                 #Database tables
+password = "FabContro1" 	                                                #Database password
+database = "fabcontrol"                                                 #Database tables
 
 techflag = 1                                                            #Tech Flag for admin bypass
 
@@ -94,11 +94,15 @@ lcd.backlight(lcd.ON)
 lcd.message("%s" %ver)
 print "%s" % (ver)
 
+
 #Find Machine Flag for Binid
 c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", (hostname))
 machineresult = c.fetchone()
 binid = 2**machineresult[0]
 print "binid: ",binid
+lcd.message("\n%s" %binid)
+sleep(2)
+
 
 #Begin program loop
 while (True):
@@ -138,7 +142,6 @@ while (True):
                     c.execute("""SELECT * FROM fabstatus WHERE machine = %s""", (hostname))
                     machineresult = c.fetchone()
                     machinestatus = machineresult[3]
-                    binid = machineresult[1]
                     if (machinestatus == 1) or (techaccess > 0):
                         print "%s is available" %hostname
                         lcd.backlight(lcd.GREEN)
