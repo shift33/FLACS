@@ -156,7 +156,7 @@ while (True):
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                             organisation, facility, location, hostname, terminal, software, operator) \
                             values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
-                            (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                            (id, objid[0], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
                             db.commit()
 
                             #This line sets the machine as IN USE by the current user:
@@ -180,7 +180,7 @@ while (True):
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                             organisation, facility, location, hostname, terminal, software, operator) \
                             values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
-                            (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                            (id, objid[0], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
                             db.commit()
 
                             #Resets the machine to available by the current user:
@@ -238,7 +238,7 @@ while (True):
                 c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                 organisation, facility, location, hostname, terminal, software, operator) \
                 values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
-                (id, fabuser[2], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
+                (id, objid[0], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
                 db.commit()
                 sleep(5)
                 
