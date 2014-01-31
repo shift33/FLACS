@@ -184,7 +184,7 @@ while (True):
                             db.commit()
 
                             #Resets the machine to available by the current user:
-                            c.execute("""UPDATE fabstatus SET status = 1, contactid = 0, name = '' WHERE machine = %s""", (hostname))                                  
+                            c.execute("""UPDATE fabstatus SET status = %s, contactid = 0, name = '' WHERE machine = %s""", (machinestatus,hostname))                                  
                             db.commit()
 
                             #Lastly, turn off the relay
@@ -197,14 +197,14 @@ while (True):
                             db.rollback()
 
                     #Machine access level - use codes to set status:                
-                    elif machinestatus == 2:                            #Checks for current usage
+                    elif (machinestatus == 2):                            #Checks for current usage
                         print "%s is IN USE" %hostname
                         lcd.clear()
                         lcd.backlight(lcd.RED)
                         lcd.message("%s\nis in use" % (hostname))
                         sleep(5)
                         
-                    elif machinestatus == 3:                            #Checks for repair tag
+                    elif (machinestatus == 3):                            #Checks for repair tag
                         print "%s is under repair" %hostname
                         lcd.clear()
                         lcd.backlight(lcd.RED)
