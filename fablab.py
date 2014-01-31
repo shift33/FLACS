@@ -30,7 +30,7 @@ database = "fabcontrol"                                                 #Databas
 
 techflag = 1                                                            #Tech Flag for admin bypass
 
-logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
+
 GPIO.setwarnings(False)                                                 #Sets warnings off to reduce clutter
 GPIO.setmode(GPIO.BOARD)                                                #Sets GPIO numbering to 1-26
 GPIO.setup(12, GPIO.OUT)                                                #Sets Pin 12 (BCM 18) to output
@@ -152,6 +152,7 @@ while (True):
                         try:
                             logBit = 1
                             facility = 1
+                            logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
                             #Log the time of the barcode scan:
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                             organisation, facility, location, hostname, terminal, software, operator) \
@@ -177,6 +178,7 @@ while (True):
                             #Reset log status to log-out
                             logBit = 0
                             facility = 1
+                            logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                             organisation, facility, location, hostname, terminal, software, operator) \
                             values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
@@ -235,6 +237,7 @@ while (True):
                 #Log scan without triggering GPIO
                 logBit = 0
                 facility = 0
+                logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
                 c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                 organisation, facility, location, hostname, terminal, software, operator) \
                 values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
