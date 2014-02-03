@@ -14,3 +14,5 @@ sudo apt-get install i2c-tools
 
 sudo nano /etc/modules
 
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+
