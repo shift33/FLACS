@@ -72,19 +72,7 @@ col = (lcd.RED, lcd.GREEN, lcd.BLUE, lcd.ON)                            #Cycle F
 for c in col:
     lcd.backlight(c)
     sleep(1)
-dbc = 1                                                                 #Sets DB connection counter to 1
-while (True):
-    try:
-        lcd.clear()
-        lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
-        lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
-        db=mdb.connect(host,user,password,database);                    #Tries connection to database
-        c = db.cursor()                                                 #Creates cursor object if successful
-        break
-    except mdb.Error, e:	                                        #DB connection error handling
-        dbc = dbc + 1
-        sleep(5)
-        continue    
+                                                                 #Sets DB connection counter to 1
 
 #Return database version:
 c.execute("""SELECT VERSION()""")
@@ -111,6 +99,21 @@ while (True):
     lcd.backlight(lcd.GREEN)
     lcd.message("\nScanned")
     sleep(.5)
+    
+    while (True):
+    dbc = 1
+    try:
+        lcd.clear()
+        lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
+        lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
+        db=mdb.connect(host,user,password,database);                    #Tries connection to database
+        c = db.cursor()                                                 #Creates cursor object if successful
+        break
+    except mdb.Error, e:	                                        #DB connection error handling
+        dbc = dbc + 1
+        sleep(5)
+        continue    
+
     
     #Start User Status Check:
     c.execute("""SELECT objid FROM scancode WHERE code = %s""",(barcode))
