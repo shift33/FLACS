@@ -74,6 +74,20 @@ for c in col:
     sleep(1)
                                                                  #Sets DB connection counter to 1
 
+while (True):
+    dbc = 1
+    try:
+        lcd.clear()
+        lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
+        lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
+        db=mdb.connect(host,user,password,database);                    #Tries connection to database
+        c = db.cursor()                                                 #Creates cursor object if successful
+        break
+    except mdb.Error, e:	                                        #DB connection error handling
+        dbc = dbc + 1
+        sleep(5)
+        continue
+    
 #Return database version:
 c.execute("""SELECT VERSION()""")
 ver = c.fetchone()
@@ -81,6 +95,7 @@ lcd.clear()
 lcd.backlight(lcd.ON)
 lcd.message("%s" %ver)
 print "%s" % (ver)
+
 
 
 #Find Machine Flag for Binid
@@ -91,6 +106,7 @@ print "binid: ",binid
 lcd.message("\n%s" %binid)
 sleep(2)
 
+c.close()
 
 #Begin program loop
 while (True):
@@ -195,6 +211,7 @@ while (True):
                             #Lastly, turn off the relay
                             GPIO.output(12, GPIO.LOW)
                             print "Logged out of database"
+                            c.close()
                                                 
                         except mdb.ProgrammingError:
                             print "DATABASE ERROR!"
@@ -246,6 +263,7 @@ while (True):
                 values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""),\
                 (id, objid[0], logtime, logBit, organisation, facility, location, hostname, terminal, software, operator))
                 db.commit()
+                c.close()
                 sleep(5)
                 
         #Error handling for failed code lookup
