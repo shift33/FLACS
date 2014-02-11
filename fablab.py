@@ -117,18 +117,18 @@ while (True):
     sleep(.5)
     
     while (True):
-    dbc = 1
-    try:
-        lcd.clear()
-        lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
-        lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
-        db=mdb.connect(host,user,password,database);                    #Tries connection to database
-        c = db.cursor()                                                 #Creates cursor object if successful
-        break
-    except mdb.Error, e:	                                        #DB connection error handling
-        dbc = dbc + 1
-        sleep(5)
-        continue    
+        dbc = 1
+        try:
+            lcd.clear()
+            lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
+            lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
+            db=mdb.connect(host,user,password,database);                    #Tries connection to database
+            c = db.cursor()                                                 #Creates cursor object if successful
+            break
+        except mdb.Error, e:	                                        #DB connection error handling
+            dbc = dbc + 1
+            sleep(5)
+            continue    
 
     
     #Start User Status Check:
