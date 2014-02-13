@@ -2,6 +2,6 @@
 
 cd /home/pi/FLACS
 
-sudo git pull
+sudo git pull origin
 
 sudo python fablab.py
