@@ -7,7 +7,7 @@ __author__ = "Dan Wald"
 __copyright__ = "Copyright 2014, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.4.7"
+__version__ = "0.4.9"
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
@@ -23,9 +23,9 @@ try:
 except RunTimeError:
     print ("Must run as ROOT! - Try using SUDO!")
 
-host = "192.168.2.3"                                                 #Database host
+host = "192.168.2.3"                                                    #Database host
 user = socket.gethostname()                                             #Database user - see note 1
-password = "FabContro1" 	                                                #Database password
+password = "FabContro1" 	                                            #Database password
 database = "fabcontrol"                                                 #Database tables
 
 techflag = 1                                                            #Tech Flag for admin bypass
@@ -37,25 +37,25 @@ GPIO.setup(12, GPIO.OUT)                                                #Sets Pi
 GPIO.output(12, GPIO.LOW)                                               #Sets default state to off
 
 id = 0                                                                  #These variables satisfy the admin cms
-organisation = 0                                                        #
+organisation = 0                                                        
 facility = 0                                                            #Will be manipulated later for logging
 location = socket.gethostname()                                         #Sets device hostname as location
 hostname = socket.gethostname()                                         #Sets device hostname as hostname
-terminal = 0                                                            #
-software = 20011                                                        #
-operator = 0                                                            #
+terminal = 0                                                            
+software = 20011                                                        
+operator = 0                                                            
 
-lcd = Adafruit_CharLCDPlate()                                           #Use Adafruit library for i2c and screen
-vers = __version__                                                      #Sets version number for screen
+lcd = Adafruit_CharLCDPlate() #Use Adafruit library for i2c and screen
+vers = __version__ #Sets version number for screen
 
-def scan():                                                             #Set up Scan Code for Program
+def scan(): #Set up Scan Code for Program
     while (True):
         try:
             lcd.clear()
             lcd.backlight(lcd.BLUE)
             lcd.message("SCAN BARCODE:")
             x = int(raw_input("SCAN BARCODE: "))            
-        except ValueError:                                              #Input format error handling
+        except ValueError: #Input format error handling
             lcd.clear()
             lcd.backlight(lcd.RED)
             lcd.message("User does\nNOT exist!")
@@ -66,24 +66,24 @@ def scan():                                                             #Set up 
         else:
             return (x)
 
-lcd.clear()                                                             #Clear LCD
-lcd.message("FABLab Login\n%s" % (vers))                                #Display program version
-col = (lcd.RED, lcd.GREEN, lcd.BLUE, lcd.ON)                            #Cycle FABLab colors
+lcd.clear() #Clear LCD
+lcd.message("FABLab Login\n%s" % (vers)) #Display program version
+col = (lcd.RED, lcd.GREEN, lcd.BLUE, lcd.ON) #Cycle FABLab colors
 for c in col:
     lcd.backlight(c)
     sleep(1)
-                                                                 #Sets DB connection counter to 1
+
 
 while (True):
-    dbc = 1
+    dbc = 1 #Sets DB connection counter to 1
     try:
         lcd.clear()
-        lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
+        lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
         lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
-        db=mdb.connect(host,user,password,database);                    #Tries connection to database
-        c = db.cursor()                                                 #Creates cursor object if successful
+        db=mdb.connect(host,user,password,database); #Tries connection to database
+        c = db.cursor() #Creates cursor object if successful
         break
-    except mdb.Error, e:	                                        #DB connection error handling
+    except mdb.Error, e: #DB connection error handling
         dbc = dbc + 1
         sleep(5)
         continue
@@ -116,20 +116,22 @@ while (True):
     lcd.message("\nScanned")
     sleep(.5)
     
-    while (True):
-        dbc = 1
-        try:
-            lcd.clear()
-            lcd.backlight(lcd.YELLOW)                                       #Sets LCD Warning mode
-            lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
-            db=mdb.connect(host,user,password,database);                    #Tries connection to database
-            c = db.cursor()                                                 #Creates cursor object if successful
-            break
-        except mdb.Error, e:	                                        #DB connection error handling
-            dbc = dbc + 1
-            sleep(5)
-            continue    
-
+#New server connection Scheme - could be problimatic:
+#----------------------------------------------------
+    try:
+        lcd.clear()
+        lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
+        lcd.message("Accessing FABLab")
+        sleep(.2)
+        db=mdb.connect(host,user,password,database); #Tries connection to database
+        c = db.cursor() #Creates cursor object if successful
+        
+    except mdb.Error, e: #DB connection error handling
+        lcd.clear()
+        lcd.backlight(lcd.VIOLET)
+        lcd.message("SERVER NOT FOUND\nRESTART SCANNER")
+        break    
+#----------------------------------------------------
     
     #Start User Status Check:
     c.execute("""SELECT objid FROM scancode WHERE code = %s""",(barcode))
@@ -156,6 +158,7 @@ while (True):
                     lcd.backlight(lcd.GREEN)
                     lcd.message("FABLab is OPEN")
                     sleep(.5)
+                    lcd.backlight(lcd.ON)
 
                     #Start Machine Status Check:
                     c.execute("""SELECT * FROM fabstatus WHERE machine = %s""", (hostname))
