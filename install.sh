@@ -2,6 +2,8 @@
 
 sudo apt-get update
 
+sudo apt-get install --yes --force-yes rdate
+
 sudo apt-get install --yes --force-yes python-mysqldb
 
 sudo apt-get install --yes --force-yes python-dev
