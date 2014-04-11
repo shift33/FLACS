@@ -118,23 +118,13 @@ while (True):
     if (barcode == 000000): #START CHECK FOR SHUTDOWN CODE
         lcd.clear()
         lcd.message("SHUTDOWN STARTED")
-        col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
+        col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED)
         for c in col:
             lcd.backlight(c)
             sleep(.25)
         os.system("sudo shutdown -h now")
         break
         
-    elif (barcode == 010101): #START CHECK FOR REBOOT CODE
-        lcd.clear()
-        lcd.message("REBOOT STARTED")
-        col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
-        for c in col:
-            lcd.backlight(c)
-            sleep(.25)
-        os.system("sudo reboot")
-        break
-    
     lcd.backlight(lcd.GREEN)
     lcd.message("\nScanned")
     sleep(.5)
