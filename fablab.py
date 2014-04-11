@@ -57,24 +57,6 @@ def scan(): #Set up Scan Code for Program
             lcd.message("SCAN BARCODE:")
             x = int(raw_input("SCAN BARCODE: "))
             
-            if (x == 000000): #START CHECK FOR SHUTDOWN CODE
-                lcd.clear()
-                lcd.message("SHUTDOWN STARTED")
-                col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
-                for c in col:
-                    lcd.backlight(c)
-                    sleep(.5)
-                os.system("sudo shutdown -h now")
-                
-            elif (x == 010101): #START CHECK FOR REBOOT CODE
-                lcd.clear()
-                lcd.message("SHUTDOWN STARTED")
-                col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
-                for c in col:
-                    lcd.backlight(c)
-                    sleep(.5)
-                os.system("sudo reboot")
-                
         except ValueError: #Input format error handling
             lcd.clear()
             lcd.backlight(lcd.RED)
@@ -132,6 +114,27 @@ c.close()
 while (True):
     print ""
     barcode=scan()
+    
+    if (barcode == 000000): #START CHECK FOR SHUTDOWN CODE
+        lcd.clear()
+        lcd.message("SHUTDOWN STARTED")
+        col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
+        for c in col:
+            lcd.backlight(c)
+            sleep(.25)
+        os.system("sudo shutdown -h now")
+        break
+        
+    elif (barcode == 010101): #START CHECK FOR REBOOT CODE
+        lcd.clear()
+        lcd.message("REBOOT STARTED")
+        col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
+        for c in col:
+            lcd.backlight(c)
+            sleep(.25)
+        os.system("sudo reboot")
+        break
+    
     lcd.backlight(lcd.GREEN)
     lcd.message("\nScanned")
     sleep(.5)
