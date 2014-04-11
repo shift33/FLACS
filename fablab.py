@@ -57,7 +57,7 @@ def scan(): #Set up Scan Code for Program
             lcd.message("SCAN BARCODE:")
             x = int(raw_input("SCAN BARCODE: "))
             
-            if (x = 000000) #START CHECK FOR SHUTDOWN CODE
+            if (x == 000000): #START CHECK FOR SHUTDOWN CODE
                 lcd.clear()
                 lcd.message("SHUTDOWN STARTED")
                 col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
@@ -66,7 +66,7 @@ def scan(): #Set up Scan Code for Program
                     sleep(.5)
                 os.system("sudo shutdown -h now")
                 
-            elif (x = 010101) #START CHECK FOR REBOOT CODE
+            elif (x == 010101): #START CHECK FOR REBOOT CODE
                 lcd.clear()
                 lcd.message("SHUTDOWN STARTED")
                 col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
