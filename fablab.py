@@ -13,6 +13,7 @@ __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
 
 import MySQLdb as mdb
+import os
 import sys
 import socket
 from time import strftime
@@ -54,7 +55,26 @@ def scan(): #Set up Scan Code for Program
             lcd.clear()
             lcd.backlight(lcd.BLUE)
             lcd.message("SCAN BARCODE:")
-            x = int(raw_input("SCAN BARCODE: "))            
+            x = int(raw_input("SCAN BARCODE: "))
+            
+            if (x = 000000) #START CHECK FOR SHUTDOWN CODE
+                lcd.clear()
+                lcd.message("SHUTDOWN STARTED")
+                col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
+                for c in col:
+                    lcd.backlight(c)
+                    sleep(.5)
+                os.system("sudo shutdown -h now")
+                
+            elif (x = 010101) #START CHECK FOR REBOOT CODE
+                lcd.clear()
+                lcd.message("SHUTDOWN STARTED")
+                col = (lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW, lcd.RED, lcd.YELLOW)
+                for c in col:
+                    lcd.backlight(c)
+                    sleep(.5)
+                os.system("sudo reboot")
+                
         except ValueError: #Input format error handling
             lcd.clear()
             lcd.backlight(lcd.RED)
