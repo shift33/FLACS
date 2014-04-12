@@ -209,6 +209,20 @@ while (True):
 
                             #Wait for user to log out
                             raw_input("PRESS ENTER TO LOG OUT ->")
+                            
+                            try:
+                                lcd.clear()
+                                lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
+                                lcd.message("Accessing FABLab")
+                                sleep(.2)
+                                db=mdb.connect(host,user,password,database); #Tries connection to database
+                                c = db.cursor() #Creates cursor object if successful
+                            
+                            except mdb.Error, e: #DB connection error handling
+                                lcd.clear()
+                                lcd.backlight(lcd.VIOLET)
+                                lcd.message("SERVER NOT FOUND\nRESTART SCANNER")
+                                break    
 
                             #Reset log status to log-out
                             logBit = 0
