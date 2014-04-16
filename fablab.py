@@ -225,7 +225,7 @@ while (True):
                                 break    
 
                             #Reset log status to log-out
-                            logBit = 0
+                            logBit = 2
                             facility = 1
                             logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
