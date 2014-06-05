@@ -206,6 +206,8 @@ while (True):
                             lcd.backlight(lcd.GREEN)
                             lcd.message("CURRENT USER:\n%s" % (name))
                             sleep(.5)
+                            
+                            c.close() #Close Connection in case of auto-logout
 
                             #Wait for user to log out
                             raw_input("PRESS ENTER TO LOG OUT ->")
@@ -255,6 +257,7 @@ while (True):
                         lcd.backlight(lcd.RED)
                         lcd.message("%s\nis in use" % (hostname))
                         sleep(5)
+                        c.close()
                         
                     elif (machinestatus == 3):                            #Checks for repair tag
                         print "%s is under repair" %hostname
@@ -262,6 +265,7 @@ while (True):
                         lcd.backlight(lcd.RED)
                         lcd.message("%s\nis under repair" % (hostname))
                         sleep(5)
+                        c.close()
                         
                     else:                                               #Checks if machine is offline
                         print "%s is offline" %hostname
@@ -269,6 +273,7 @@ while (True):
                         lcd.backlight(lcd.RED)
                         lcd.message("%s\nis offline" % (hostname))
                         sleep(5)
+                        c.close()
                         
                 #Lab access level    
                 else:
@@ -277,6 +282,7 @@ while (True):
                     lcd.backlight(lcd.RED)
                     lcd.message("FABLab is closed")
                     sleep(5)
+                    c.close()
    
             #User access level failure
             else:
@@ -303,6 +309,7 @@ while (True):
             lcd.message("User does\nNOT exist!")
             print "User does not exist!"
             sleep(5)
+            c.close()
                 
     #User exist level failure
     else:
@@ -311,6 +318,7 @@ while (True):
         lcd.message("User does\nNOT exist!")
         print "User does not exist!"
         sleep(5)
+        c.close()
 
 """NOTES"""
 #1
