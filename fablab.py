@@ -256,10 +256,7 @@ while (True):
                             #Lastly, turn off the relay
                             GPIO.output(12, GPIO.LOW)
                             print "Logged out of database"
-                            
-                            userduration = str(datetime.timedelta(seconds=elapsed_time))
-                            
-                            print "Duration of visit:  %s" %userduration
+                            print "Duration of visit:  %s" %elapsed_time
                             c.close()
                                                 
                         except mdb.ProgrammingError:
