@@ -16,6 +16,7 @@ import MySQLdb as mdb
 import os
 import sys
 import socket
+import time
 from time import strftime
 from time import sleep
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
@@ -188,6 +189,8 @@ while (True):
                             logBit = 1
                             facility = 1
                             logtime = strftime("%Y-%m-%d %H:%M:%S")                                 #Set up timestamp for visit logs
+                            
+                            start_time = time.time()
                             #Log the time of the barcode scan:
                             c.execute(("""INSERT INTO visitlog (id, member, logtime, logcode, \
                             organisation, facility, location, hostname, terminal, software, operator) \
@@ -238,6 +241,14 @@ while (True):
 
                             #Resets the machine to available by the current user:
                             c.execute("""UPDATE fabstatus SET status = %s, contactid = 0, name = '' WHERE machine = %s""", (machinestatus,hostname))                                  
+                            db.commit()
+                            
+                            elapsed_time = time.time() - start_time
+                            fabvisitdate = strftime("%Y-%m-%d %H:%M:%S")
+                            
+                            #The following inserts a single line visit duration to the custom fabvisit table
+                            c.execute(("""INSERT INTO fabvisit (id, member, machine, date, duration) values (%s, %s, %s, %s, %s)"""),\
+                            (id, objid[0], hostname, fabvisitdate, elapsed_time))
                             db.commit()
 
                             #Lastly, turn off the relay
