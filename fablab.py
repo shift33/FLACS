@@ -212,24 +212,9 @@ while (True):
                             
                             c.close() #Close Connection in case of auto-logout
                             
-                            #Wait for logout, while displaying login duration
                             
-                            i = 0
-                            while True:
-                                os.system('cls' if os.name == 'nt' else 'clear')
-                                print "I'm doing stuff. Press Enter to stop me!"
-                                
-                                elapsed_time = time.time() - start_time
-                                lcd.message("\nTime: %s" % (elapsed_time)
-                                
-                                
-                                if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                                    line = raw_input()
-                                    break
-                                i += 1
-
-                            #Wait for user to log out - old system
-                            #raw_input("PRESS ENTER TO LOG OUT ->")
+                            #Wait for user to log out
+                            raw_input("PRESS ENTER TO LOG OUT ->")
                             
                             try:
                                 lcd.clear()
