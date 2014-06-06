@@ -222,7 +222,7 @@ while (True):
                                 elapsed_time = time.time() - start_time
                                 lcd.message("\nTime: %s" % (elapsed_time)
                                 
-                                print "%s" %i
+                                
                                 if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                                     line = raw_input()
                                     break
