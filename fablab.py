@@ -207,13 +207,24 @@ while (True):
                             print "Logged SUCCESS to database"
                             lcd.clear()
                             lcd.backlight(lcd.GREEN)
-                            lcd.message("CURRENT USER:\n%s" % (name))
+                            lcd.message("%s" % (name))
                             sleep(.5)
                             
                             c.close() #Close Connection in case of auto-logout
+                            
+                            #Wait for logout, while displaying login duration
+                            clockloop = raw_input('Press enter to exit...')
+                            running = 1
+                            while running == 1:
+                                elapsed_time = time.time() - start_time
+                                lcd.message("\nTime: %s" % (elapsed_time)
+                            if clockloop == "":
+                                break
+                            else
+                                running == 1
 
-                            #Wait for user to log out
-                            raw_input("PRESS ENTER TO LOG OUT ->")
+                            #Wait for user to log out - old system
+                            #raw_input("PRESS ENTER TO LOG OUT ->")
                             
                             try:
                                 lcd.clear()
@@ -247,7 +258,7 @@ while (True):
                             fabvisitdate = strftime("%Y-%m-%d %H:%M:%S")
                             
                             #The following inserts a single line visit duration to the custom fabvisit table
-                            c.execute(("""INSERT INTO fabvisit (id, member, machine, date, duration) values (%s, %s, %s, %s, %s)"""),\
+                            c.execute(("""INSERT INTO fabvisit (id, member, machine, dateout, duration) values (%s, %s, %s, %s, %s)"""),\
                             (id, objid[0], hostname, fabvisitdate, elapsed_time))
                             db.commit()
 
