@@ -218,10 +218,10 @@ while (True):
                             while running == 1:
                                 elapsed_time = time.time() - start_time
                                 lcd.message("\nTime: %s" % (elapsed_time)
-                            if clockloop == "":
-                                break
-                            else
-                                running == 1
+                                if clockloop == "":
+                                    break
+                                else:
+                                    running == 1
 
                             #Wait for user to log out - old system
                             #raw_input("PRESS ENTER TO LOG OUT ->")
