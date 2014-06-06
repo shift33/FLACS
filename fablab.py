@@ -17,6 +17,7 @@ import os
 import sys
 import socket
 import time
+import datetime
 from time import strftime
 from time import sleep
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
@@ -255,7 +256,10 @@ while (True):
                             #Lastly, turn off the relay
                             GPIO.output(12, GPIO.LOW)
                             print "Logged out of database"
-                            print "Duration of visit:  %s" %elapsed_time
+                            
+                            userduration = str(datetime.timedelta(seconds=elapsed_time))
+                            
+                            print "Duration of visit:  %s" %userduration
                             c.close()
                                                 
                         except mdb.ProgrammingError:
