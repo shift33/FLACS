@@ -26,7 +26,7 @@ try:
 except RunTimeError:
     print ("Must run as ROOT! - Try using SUDO!")
 
-host = "192.168.2.3"                                                    #Database host
+host = "192.168.2.12"                                                    #Database host
 user = socket.gethostname()                                             #Database user - see note 1
 password = "FabContro1" 	                                            #Database password
 database = "fabcontrol"                                                 #Database tables
