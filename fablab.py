@@ -82,10 +82,13 @@ lcd.clear()
 lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
 lcd.message("Connecting")
 sleep(.25)
+lcd.clear()
 lcd.message("Connecting.")
 sleep(.25)
+lcd.clear()
 lcd.message("Connecting..")
 sleep(.25)
+lcd.clear()
 lcd.message("Connecting...")
 db=mdb.connect(host,user,password,database); #Tries connection to database
 c = db.cursor() #Creates cursor object if successful
