@@ -78,19 +78,18 @@ for c in col:
     sleep(1)
 
 
-while (True):
-    dbc = 1 #Sets DB connection counter to 1
-    try:
-        lcd.clear()
-        lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
-        lcd.message("Accessing FABLab\nAttempt %s" % (dbc))
-        db=mdb.connect(host,user,password,database); #Tries connection to database
-        c = db.cursor() #Creates cursor object if successful
-        break
-    except mdb.Error, e: #DB connection error handling
-        dbc = dbc + 1
-        sleep(5)
-        continue
+lcd.clear()
+lcd.backlight(lcd.YELLOW) #Sets LCD Warning mode
+lcd.message("Connecting")
+sleep(.25)
+lcd.message("Connecting.")
+sleep(.25)
+lcd.message("Connecting..")
+sleep(.25)
+lcd.message("Connecting...")
+db=mdb.connect(host,user,password,database); #Tries connection to database
+c = db.cursor() #Creates cursor object if successful
+
     
 #Return database version:
 c.execute("""SELECT VERSION()""")
