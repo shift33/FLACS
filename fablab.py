@@ -7,7 +7,7 @@ __author__ = "Dan Wald"
 __copyright__ = "Copyright 2014, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.5.2"
+__version__ = "0.5.3" #Pending a major rewrite to class based sessions
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
@@ -341,9 +341,10 @@ while (True):
 """The User is set via the hostname of the Pi itself.
 To change the hostname:
 edit both /etc/hosts and /etc/hostname to the new name (matching a device
-in fabstatus and reboot."""
+in fabstatus) and reboot."""
 
 #2
+"""Current connection issues to database - need to debug"""
 #3
 #4
 
