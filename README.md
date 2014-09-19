@@ -72,10 +72,14 @@ The Pi will finish applying the settings and may reboot.
 We now need to install the libraries that the code will depend on. The new script allows for a seamless install of all required modules and the changes to the required files in a few easy steps.
 
 1. At the prompt, enter the following:
-	'''sudo git clone http://www.github.com/longblonde/FLACS'''
+'''shell
+sudo git clone http://www.github.com/longblonde/FLACS
+'''
 	This will download the entire system to the pi.
 2. Once downloaded, enter the following command to start the install:
-	'''sudo sh FLACS/install.sh'''
+'''shell
+sudo sh FLACS/install.sh
+'''
 	This command will prompt you y/n in order to proceed, as it downloads quite a few items as well as rewriting a lot of configs. THIS WILL BREAK SOME CUSTOM CONFIGURATIONS! Use at your own risk if this is not a fresh install.
 3. The script will finish up by asking you for a hostname - this is one of the names of the devices set up in the database where the pi will post to.
 4. Following the hostname entry, the pi will reboot into the FLACS environment and is ready for use.
