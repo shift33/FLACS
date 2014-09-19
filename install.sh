@@ -44,7 +44,5 @@ case $response in
         ;;
     *)
         echo "Quitting..."
-        sleep 5
-        clear
         ;;
 esac
