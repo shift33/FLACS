@@ -76,6 +76,7 @@ We now need to install the libraries that the code will depend on. The new scrip
 sudo git clone http://www.github.com/longblonde/FLACS
 ```
 This will download the entire system to the pi.
+
 2. Once downloaded, enter the following command to start the install:
 ```shell
 sudo sh FLACS/install.sh
