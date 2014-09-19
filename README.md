@@ -59,35 +59,27 @@ You will then get a warning message that the SD card will be overwritten (which 
 
 Once the file copying is complete, you will get a message “Image applied successfully”. When you hit RETURN the Raspberry Pi wil reboot, and the Raspi-Config untility will automatically run and give the following list:
 
-* expand_rootfs		- this can be ignored, as NOOBS has done this for us.
+* expand_rootfs			- this can be ignored, as NOOBS has done this for us.
 * overscan			- this option fixes black borders around the screen if they exist.
-* configure_keyboard	- changes the keyboard to layout other than GB.
-* change_pass			- changes password for the Pi - we will do this later.
-* change_locale		- changes language options - deselect GB with spacebar.
 * change_timezone		- Set this to the location of your FABLab.
-* memory_split 		- can be ignored.
 * ssh 				- enable this option for later steps.
-* boot_behavior 		- this will be changed later, ignore for now.
 * update 			- updates the config file. Not necissary, but can be run if desired.
 
-The Pi will finish applying the settings and may reboot. When the desktop loads, be sure that your Pi is connected to the internet for the next steps.
+The Pi will finish applying the settings and may reboot. 
 
 ####Installing Libraries
 
-We now need to install the libraries that the code will depend on. Click on the desktop icon ‘LXTerminal’ to open a terminal session, and enter the following:
+We now need to install the libraries that the code will depend on. The new script allows for a seamless install of all required modules and the changes to the required files in a few easy steps.
 
-```sudo apt-get update```
+1. At the prompt, enter the following:
+	'''sudo git clone http://www.github.com/longblonde/FLACS'''
+	This will download the entire system to the pi.
+2. Once downloaded, enter the following command to start the install:
+	'''sudo sh FLACS/install.sh'''
+	This command will prompt you y/n in order to proceed, as it downloads quite a few items as well as rewriting a lot of configs. THIS WILL BREAK SOME CUSTOM CONFIGURATIONS! Use at your own risk if this is not a fresh install.
+3. The script will finish up by asking you for a hostname - this is one of the names of the devices set up in the database where the pi will post to.
+4. Following the hostname entry, the pi will reboot into the FLACS environment and is ready for use.
 
-The terminal will prompt you for a password - the default is raspberry - just press RETURN once you have entered the password. The Pi will search for updates to the system, and if it finds any it will download and install them. 
-
-Once this finishes, we will begin by adding all of the required libraries. In the terminal, enter the following command and press y and RETURN when prompted:
-
-```sudo apt-get install python-mysqldb```
-
-This will install the MySQL connection service into python so that the program can communicate to our server database. After the terminal installs the above module, it will return to a blinking cursor. Then repeat the installation procedure for each of the following lines of code:
-
-```sudo apt-get install python-dev```
-
-```sudo apt-get install python-rpi.gpio```
-
-These commands will install the other required dependancies of the system.
+####Troubleshooting
+1. fablab.py is currently designed to work with an Adafruit RGB LCD Display attached. Failure to have a connected screen on boot will result in an error.
+2. The system is known to not respond to the database from time to time. This is a known bug with no current fix...
