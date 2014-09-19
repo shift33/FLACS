@@ -17,6 +17,7 @@ case $response in
         echo "Now altering enviornment..."
         #Add i2c support to Raspberry Pi
         sudo sed -i '$ i\i2c-dev' /etc/modules
+        sudo sed -i '$ i\i2c-bcm2708' /etc/modules
         echo"/etc/modules [CHANGED]"
         #Comment out Blacklist File
         sudo sed -i '''s/^\([^#]\)/#\1/g' /etc/modprobe.d/raspi-blacklist.conf
