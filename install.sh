@@ -16,10 +16,11 @@ case $response in
         sudo apt-get install --yes --force-yes python-smbus
         sudo apt-get install --yes --force-yes i2c-tools
         
-        clear
+        echo " "
+        cd ~
         echo "Now altering enviornment..."
         #Add i2c support to Raspberry Pi
-        sudo sed -i '$ i\>i2c-dev' /etc/modules
+        sudo sed -i '$ i\i2c-dev' /etc/modules
         echo"/etc/modules [CHANGED]"
         
         #Comment out Blacklist File
@@ -27,12 +28,10 @@ case $response in
         echo "/etc/modprobe.d/raspi-blacklist.conf [CHANGED]"
         
         #Edit rc.local to boot FabLab code on power-up
-        sudo sed -i '$ i\>(sudo sh /home/pi/FLACS/boot.sh)' /etc/rc.local
+        sudo sed -i '$ i\(sudo sh /home/pi/FLACS/boot.sh)' /etc/rc.local
         echo "/etc/rc.local [CHANGED]"
         
         sleep 5
-        clear
-        #HOSTNAME CHANGER ---------->
         
         #Assign existing hostname to $hostn
         hostn=$(cat /etc/hostname)
@@ -50,9 +49,9 @@ case $response in
         
         #display new hostname
         echo "Your new hostname is $newhost"
-        
-        #Press a key to reboot
-        read -s -n 1 -p "Press any key to reboot into the FabLab Access Control System"
+        echo " "
+        echo "Rebooting into the FabLab Access Control System..."
+        sleep 5
         sudo reboot
 
         ;;
