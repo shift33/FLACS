@@ -126,6 +126,10 @@ while (True):
         for c in col:
             lcd.backlight(c)
             sleep(.25)
+        #Resets the machine to available by the current user:
+        c.execute("""UPDATE fabstatus SET status = %s, contactid = 0, name = '' WHERE machine = %s""", (machinestatus,hostname))                                  
+        db.commit()
+        sleep(1)
         os.system("sudo shutdown -h now")
         break
         
