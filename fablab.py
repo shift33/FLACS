@@ -165,7 +165,7 @@ while (True):
             name = fabuser[0] + " " + fabuser[1]
             print name
             access = fabuser[2] & binid
-            labaccess = fabuser[2] & 32
+            labaccess = fabuser[2] & 31
             techaccess = fabuser[2] & techflag
             print "Access Flag: ", access
             print "Tech Flag:   ",techaccess
