@@ -7,7 +7,7 @@ __author__ = "Dan Wald"
 __copyright__ = "Copyright 2014, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.5.4" #Pending a major rewrite to class based sessions
+__version__ = "0.5.5" #Pending a major rewrite to class based sessions
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
@@ -165,10 +165,11 @@ while (True):
             name = fabuser[0] + " " + fabuser[1]
             print name
             access = fabuser[2] & binid
+            labaccess = fabuser[2] & 32
             techaccess = fabuser[2] & techflag
             print "Access Flag: ", access
             print "Tech Flag:   ",techaccess
-            if (access > 0) or (techaccess > 0):
+            if ((access > 0) and (labaccess > 0)) or (techaccess > 0):
                 
                 #Start FabLab Status Check:
                 c.execute("""SELECT status FROM fabstatus WHERE machine = %s""", ("fablab"))
