@@ -108,13 +108,8 @@ print "%s" % (ver)
 c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", (hostname))
 machineresult = c.fetchone()
 binid = 2**machineresult[0]
-
-c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", ("active"))
-activeresult = c.fetchone()
-labaccess = 2**activeresult[0]
 print "binid: ",binid
-print "labaccess: ",labaccess
-lcd.message("\n%s %s" %binid %labaccess)
+lcd.message("\n%s" %binid)
 sleep(2)
 
 c.close()
@@ -170,7 +165,7 @@ while (True):
             name = fabuser[0] + " " + fabuser[1]
             print name
             access = fabuser[2] & binid
-            activestatus = fabuser[2] & labaccess
+            activestatus = fabuser[2] & 512
             techaccess = fabuser[2] & techflag
             print "Access Flag: ", access
             print "Active Status: ", activestatus
