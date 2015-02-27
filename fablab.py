@@ -169,7 +169,7 @@ while (True):
             techaccess = fabuser[2] & techflag
             print "Access Flag: ", access
             print "Tech Flag:   ",techaccess
-            if ((access > 0) and (labaccess > 0)) or (techaccess > 0):
+            if ((access > 0) and (labaccess > 0)) or ((techaccess > 0) and (labaccess > 0)):
                 
                 #Start FabLab Status Check:
                 c.execute("""SELECT status FROM fabstatus WHERE machine = %s""", ("fablab"))
