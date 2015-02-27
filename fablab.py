@@ -109,7 +109,7 @@ c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", (hostname))
 machineresult = c.fetchone()
 binid = 2**machineresult[0]
 
-c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", ("access"))
+c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", ("active"))
 labaccess = 2**machineresult[0]
 print "binid: ",binid
 print "labaccess: ",labaccess
@@ -169,13 +169,13 @@ while (True):
             name = fabuser[0] + " " + fabuser[1]
             print name
             access = fabuser[2] & binid
-            labaccess = fabuser[2] & 10
+            activestatus = fabuser[2] & labaccess
             techaccess = fabuser[2] & techflag
             print "Access Flag: ", access
-            print "Active Status: ", labaccess
+            print "Active Status: ", activestatus
             print "Tech Flag:   ",techaccess
             
-            if ((access > 0) and (labaccess > 0)) or ((techaccess > 0) and (labaccess > 0)):
+            if ((access > 0) and (activestatus > 0)) or ((techaccess > 0) and (activestatus > 0)):
                 
                 #Start FabLab Status Check:
                 c.execute("""SELECT status FROM fabstatus WHERE machine = %s""", ("fablab"))
