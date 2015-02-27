@@ -110,7 +110,8 @@ machineresult = c.fetchone()
 binid = 2**machineresult[0]
 
 c.execute("""SELECT id FROM contactflag WHERE vtext = %s""", ("active"))
-labaccess = 2**machineresult[0]
+activeresult = c.fetchone()
+labaccess = 2**activeresult[0]
 print "binid: ",binid
 print "labaccess: ",labaccess
 lcd.message("\n%s %s" %binid %labaccess)
