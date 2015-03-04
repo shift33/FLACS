@@ -7,7 +7,7 @@ __author__ = "Dan Wald"
 __copyright__ = "Copyright 2014, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.5.50" #Pending a major rewrite to class based sessions
+__version__ = "0.5.51" #Pending a major rewrite to class based sessions
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
 __status__ = "Prototype"
@@ -126,10 +126,6 @@ while (True):
         for c in col:
             lcd.backlight(c)
             sleep(.25)
-        #Resets the machine to available by the current user:
-        c.execute("""UPDATE fabstatus SET status = %s, contactid = 0, name = '' WHERE machine = %s""", (machinestatus,hostname))                                  
-        db.commit()
-        sleep(1)
         os.system("sudo shutdown -h now")
         break
         
