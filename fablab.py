@@ -4,13 +4,13 @@
 """fablab.py accesses the central control database to verify users against the lab machines"""
 
 __author__ = "Dan Wald"
-__copyright__ = "Copyright 2014, UWStout FABLab"
+__copyright__ = "Copyright 2015, UWStout FABLab"
 __credits__ = ["Dan Wald", "Sam Armstrong", "Lady Ada & Adafruit"]
 __license__ = "GPL"
-__version__ = "0.5.51" #Pending a major rewrite to class based sessions
+__version__ = "0.6" #No major changes from 5.51, just noting final supported version before abandonment.
 __maintainer__ = "Dan Wald"
 __email__ = "waldd@my.uwstout.edu"
-__status__ = "Prototype"
+__status__ = "Prototype - Finished"
 
 import MySQLdb as mdb
 import os
